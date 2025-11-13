@@ -2,7 +2,7 @@
 
 module Main where
 
-import Control.Monad (forM, forM_)
+import Control.Monad (forM, replicateM_)
 import Data.List (elemIndices)
 import Data.Set (Set)
 import qualified Data.Set as Set
@@ -31,7 +31,7 @@ isLegal b = null b || isSquare b || isAscendingZigZag b || isDescendingZigZag b
 main :: IO ()
 main = do
   t <- readLn
-  forM_ [1 .. t] $ \_ -> do
+  replicateM_ t $ do
     n <- readLn
     points <- forM [0 .. n - 1] $ \i ->
       Set.fromList . map (i,) . elemIndices '#' <$> getLine
