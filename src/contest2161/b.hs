@@ -11,8 +11,8 @@ isSquare :: Set (Int, Int) -> Bool
 isSquare xs
   | length xs /= 4 = False
   | otherwise =
-      ((-) <$> maximum <*> minimum) (Set.map fst xs) == 1
-        && (subtract <$> minimum <*> maximum) (Set.map snd xs) == 1
+      ((-) . maximum <*> minimum) (Set.map fst xs) == 1
+        && (subtract . minimum <*> maximum) (Set.map snd xs) == 1
 
 areLegalIntercepts :: (Foldable f) => f Int -> Bool
 areLegalIntercepts s
