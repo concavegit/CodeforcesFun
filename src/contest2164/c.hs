@@ -10,7 +10,7 @@ import Data.Ord (Down (Down))
 import Numeric.Natural (Natural)
 
 removeSword :: (Ord a) => a -> Map a Natural -> Map a Natural
-removeSword = Map.update ((*>) <$> guard . (> 1) <*> Just . subtract 1)
+removeSword = Map.update $ (*>) . guard . (> 1) <*> Just . subtract 1
 
 addSword :: (Ord a) => a -> Map a Natural -> Map a Natural
 addSword = flip (Map.insertWith (+)) 1
@@ -20,7 +20,7 @@ killMonstersZeroSword' monsterHp (currentKills, currentSwords) =
   maybe
     (currentKills, currentSwords)
     ((,) (currentKills + 1) . flip removeSword currentSwords . fst)
-    (Map.lookupGE monsterHp currentSwords)
+    $ Map.lookupGE monsterHp currentSwords
 
 killMonstersZeroSword :: (Ord a, Num c, Foldable f) => Map a Natural -> f a -> c
 killMonstersZeroSword =
@@ -34,13 +34,13 @@ killNonZeroMonsters' (monsterHp, monsterSword) (numKilled, currentSwords) =
     (numKilled, currentSwords)
     ( (,)
         (numKilled + 1)
-        . (($) <$> removeSword <*> (flip addSword currentSwords . max monsterSword))
+        . (removeSword <*> flip addSword currentSwords . max monsterSword)
         . fst
     )
-    (Map.lookupGE monsterHp currentSwords)
+    $ Map.lookupGE monsterHp currentSwords
 
 killNonZeroMonsters :: (Ord a, Num c) => Map a Natural -> [(a, a)] -> (c, Map a Natural)
-killNonZeroMonsters swords = foldr killNonZeroMonsters' (0, swords)
+killNonZeroMonsters = foldr killNonZeroMonsters' . (,) 0
 
 killMonsters :: (Ord a, Num a, Num c) => Map a Natural -> [(a, a)] -> c
 killMonsters swords monsters = numKilled + zeroMonstersKilled
@@ -58,5 +58,5 @@ main = do
     bs <- (fst . fromJust . C.readInt <$>) . C.words <$> C.getLine
     cs <- (fst . fromJust . C.readInt <$>) . C.words <$> C.getLine
     print
-      . killMonsters (Map.fromListWith (+) [(a, 1) | a <- as])
+      . killMonsters (Map.fromListWith (+) $ flip (,) 1 <$> as)
       $ zip bs cs
