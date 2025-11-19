@@ -23,10 +23,7 @@ killMonstersZeroSword' monsterHp (currentKills, currentSwords) =
     $ Map.lookupGE monsterHp currentSwords
 
 killMonstersZeroSword :: (Ord a, Num c, Foldable f) => Map a Natural -> f a -> c
-killMonstersZeroSword =
-  (fst .)
-    . foldr killMonstersZeroSword'
-    . (,) 0
+killMonstersZeroSword = (fst .) . foldr killMonstersZeroSword' . (,) 0
 
 killNonZeroMonsters' :: (Ord a, Num c) => (a, a) -> (c, Map a Natural) -> (c, Map a Natural)
 killNonZeroMonsters' (monsterHp, monsterSword) (numKilled, currentSwords) =
