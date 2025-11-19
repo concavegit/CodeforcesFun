@@ -36,7 +36,7 @@ killNonZeroMonsters' (monsterHp, monsterSword) (numKilled, currentSwords) =
     )
     $ Map.lookupGE monsterHp currentSwords
 
-killNonZeroMonsters :: (Ord a, Num c) => Map a Natural -> [(a, a)] -> (c, Map a Natural)
+killNonZeroMonsters :: (Ord a, Num c, Foldable f) => Map a Natural -> f (a, a) -> (c, Map a Natural)
 killNonZeroMonsters = foldr killNonZeroMonsters' . (,) 0
 
 killMonsters :: (Ord a, Num a, Num c) => Map a Natural -> [(a, a)] -> c
