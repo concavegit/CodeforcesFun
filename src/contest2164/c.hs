@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Control.Monad (guard, replicateM_)
+import Control.Monad (replicateM_)
 import qualified Data.ByteString.Char8 as C
 import Data.List (partition, sortOn)
 import Data.Map (Map)
