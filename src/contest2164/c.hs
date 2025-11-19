@@ -8,9 +8,11 @@ import qualified Data.Map as Map
 import Data.Maybe (fromJust)
 import Data.Ord (Down (Down))
 import Numeric.Natural (Natural)
+import Data.Bool (bool)
+import Control.Applicative (empty)
 
 removeSword :: (Ord a) => a -> Map a Natural -> Map a Natural
-removeSword = Map.update $ (*>) . guard . (> 1) <*> Just . subtract 1
+removeSword = Map.update $ bool empty . pure . subtract 1 <*> (> 1)
 
 addSword :: (Ord a) => a -> Map a Natural -> Map a Natural
 addSword = flip (Map.insertWith (+)) 1
