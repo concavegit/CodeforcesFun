@@ -5,7 +5,7 @@ import Control.Monad (replicateM_)
 coreFunction :: (Num n) => n -> n -> n
 coreFunction = (-) . ((^ 2) >>= (+))
 
-maxIncrement' :: (Foldable g, Num n, Ord n) => ((n, n), (g n, n)) -> n -> ((n, n), (Maybe n, n))
+maxIncrement' :: (Foldable g, Applicative g, Num n, Ord n) => ((n, n), (g n, n)) -> n -> ((n, n), (g n, n))
 maxIncrement' ((prevIndex, prevMax), (prevMinPrefix, prevSum)) x =
   ( ( prevIndex + 1,
       max prevMax $
