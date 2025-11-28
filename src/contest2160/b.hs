@@ -3,15 +3,16 @@ import Control.Monad (replicateM_)
 import Data.Foldable (toList)
 import Data.Sequence (Seq, index, (|>))
 
-logic' :: ((Int, Int), Seq Int) -> Int -> ((Int, Int), Seq Int)
-logic' ((currentIndex, lastNum), ys) x
-  | diff > currentIndex = ((currentIndex + 1, x), ys |> currentIndex + 1)
-  | otherwise = ((currentIndex + 1, x), ys |> index ys (length ys - diff))
+logic' :: (Int, Seq Int) -> Int -> (Int, Seq Int)
+logic' (lastNum, answer) x
+  | diff > currentIndex = (x, answer |> currentIndex + 1)
+  | otherwise = (x, answer |> index answer (currentIndex - diff))
   where
     diff = x - lastNum
+    currentIndex = length answer
 
 logic :: (Foldable f) => f Int -> Seq Int
-logic = snd . foldl logic' ((0, 0), empty)
+logic = snd . foldl logic' (0, empty)
 
 main :: IO ()
 main =
