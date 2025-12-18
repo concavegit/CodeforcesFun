@@ -13,7 +13,6 @@ main =
   readLn
     >>= flip
       replicateM_
-      ( getLine
-          >>= (<$> getLine) . (. fmap (== '1')) . maxSleeps . (!! 1) . fmap read . words
+      ( (. fmap (== '1')) . maxSleeps . read . (!! 1) . words <$> getLine <*> getLine
           >>= print
       )
