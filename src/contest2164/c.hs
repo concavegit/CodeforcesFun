@@ -1,6 +1,10 @@
+{-# LANGUAGE TupleSections #-}
+
 module Main (main) where
 
+import Control.Applicative (empty)
 import Control.Monad (replicateM_)
+import Data.Bool (bool)
 import qualified Data.ByteString.Char8 as C
 import Data.List (partition, sortOn)
 import Data.Map (Map)
@@ -8,8 +12,6 @@ import qualified Data.Map as Map
 import Data.Maybe (fromJust)
 import Data.Ord (Down (Down))
 import Numeric.Natural (Natural)
-import Data.Bool (bool)
-import Control.Applicative (empty)
 
 removeSword :: (Ord a) => a -> Map a Natural -> Map a Natural
 removeSword = Map.update $ bool empty . pure . subtract 1 <*> (> 1)
@@ -57,5 +59,5 @@ main = do
     bs <- (fst . fromJust . C.readInt <$>) . C.words <$> C.getLine
     cs <- (fst . fromJust . C.readInt <$>) . C.words <$> C.getLine
     print
-      . killMonsters (Map.fromListWith (+) $ flip (,) 1 <$> as)
+      . killMonsters (Map.fromListWith (+) $ (,1) <$> as)
       $ zip bs cs
