@@ -52,12 +52,12 @@ main =
     >>= flip
       replicateM_
       ( ( (. map read . words)
-            . uncurry (findSequence :: Int -> Int -> [Int] -> Maybe [(Int, Int)])
+            . uncurry findSequence
             . (head &&& (!! 1))
             . map read
             . words
             <$> getLine
             <*> getLine
         )
-          >>= putStrLn . showResult
+          >>= putStrLn . (showResult :: Maybe [(Int, Int)] -> String)
       )
